@@ -3,7 +3,7 @@ t= int(time.strftime('%H'))
 if (0<t<12):
      print("good morning sir")
 elif (12<=t<17):
-     print("google afternoon sir")
+     print("good afternoon sir")
 else:
      print("good evening sir")
 # timestamp=time.strftime('%Y:%H:%M:%S')
