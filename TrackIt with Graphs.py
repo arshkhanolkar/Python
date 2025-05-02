@@ -342,7 +342,7 @@ class CSVLogger:
             if not os.path.exists(self.filename):
                 with open(self.filename, mode='w', newline='') as f:
                     writer = csv.writer(f)
-                    writer.writerow(["date", "subject", "minutes"])
+                    writer.writerow(["date", "timestamp", "subject", "minutes"])
                 logging.info(f"Created new CSV file at {self.filename}")
         except Exception as e:
             logging.error(f"Error initializing CSV file: {str(e)}")
@@ -350,10 +350,16 @@ class CSVLogger:
 
     def log(self, subject, minutes):
         try:
+            now = datetime.now()
             with open(self.filename, mode='a', newline='') as f:
                 writer = csv.writer(f)
-                writer.writerow([datetime.now().date(), subject, round(minutes, 2)])
-            logging.info(f"Logged session: {subject} for {minutes} minutes")
+                writer.writerow([
+                    now.date(),
+                    now.strftime("%H:%M:%S"),
+                    subject,
+                    round(minutes, 2)
+                ])
+            logging.info(f"Logged session: {subject} for {minutes} minutes at {now}")
         except Exception as e:
             logging.error(f"Error logging session: {str(e)}")
             raise
@@ -511,6 +517,7 @@ class StudyTrackerApp:
         self.settings_btn = ctk.CTkButton(
             header_frame,
             text="⚙",
+        
             width=40,
             height=40,
             corner_radius=20,
